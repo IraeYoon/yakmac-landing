@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>약맥 — 약을 아는 건강 동반자</title>
+<meta name="description" content="처방전 사진 한 장이면, 복약 스케줄부터 영양제 상호작용 확인까지 AI가 챙겨드립니다.">
+<meta property="og:title" content="약맥 — 약을 아는 건강 동반자">
+<meta property="og:description" content="처방전 사진 한 장이면, 복약 스케줄부터 영양제 상호작용 확인까지 AI가 챙겨드립니다.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💊</text></svg>">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;600;700;800&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    color: #2D3A4A;
+    background: #fff;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Hero */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 2rem 1.5rem;
+    background: linear-gradient(160deg, #edfcf7 0%, #fff 40%, #eef7fd 100%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -200px; right: -200px;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: rgba(60, 200, 160, 0.07);
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -150px; left: -150px;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    background: rgba(74, 159, 217, 0.06);
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 640px;
+  }
+
+  /* Logo (투명 배경 이미지) */
+  .logo-area {
+    margin-bottom: 2rem;
+  }
+
+  .logo-img {
+    height: 160px;
+  }
+
+  h1 {
+    font-size: 2.4rem;
+    font-weight: 800;
+    line-height: 1.3;
+    margin-bottom: 1rem;
+    color: #2D3A4A;
+    word-break: keep-all;
+  }
+
+  h1 em {
+    font-style: normal;
+    color: #3CC8A0;
+  }
+
+  .subtitle {
+    font-size: 1.1rem;
+    font-weight: 300;
+    color: #5a6a7a;
+    line-height: 1.7;
+    margin-bottom: 2.5rem;
+    word-break: keep-all;
+  }
+
+  /* Form */
+  .signup-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-width: 460px;
+    width: 100%;
+    margin: 0 auto 1rem;
+  }
+
+  .signup-row {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .signup-form input[type="email"] {
+    flex: 1;
+    padding: 0.9rem 1.2rem;
+    border: 2px solid #d4e5f0;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .signup-form input[type="email"]:focus {
+    border-color: #4A9FD9;
+  }
+
+  .signup-form input[type="email"]::placeholder {
+    color: #a0b4c8;
+  }
+
+  .signup-form button {
+    padding: 0.9rem 1.8rem;
+    background: linear-gradient(135deg, #4A9FD9, #3CC8A0);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: opacity 0.2s;
+  }
+
+  .signup-form button:hover {
+    opacity: 0.9;
+  }
+
+  .signup-form button.opinion-toggle {
+    background: none;
+    border: none;
+    font-weight: 400;
+    font-size: 0.85rem;
+    color: #4A9FD9;
+    cursor: pointer;
+    padding: 0.2rem;
+    align-self: center;
+  }
+
+  .signup-form button.opinion-toggle:hover {
+    opacity: 1;
+    text-decoration: underline;
+  }
+
+  .signup-form textarea {
+    display: none;
+    padding: 0.9rem 1.2rem;
+    border: 2px solid #d4e5f0;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    line-height: 1.5;
+    outline: none;
+    resize: vertical;
+    min-height: 90px;
+    transition: border-color 0.2s;
+  }
+
+  .signup-form textarea:focus {
+    border-color: #4A9FD9;
+  }
+
+  .signup-form textarea::placeholder {
+    color: #a0b4c8;
+  }
+
+  .signup-form textarea.open {
+    display: block;
+  }
+
+  .form-note {
+    font-size: 0.82rem;
+    color: #a0aec0;
+    margin-bottom: 3rem;
+  }
+
+  .success-msg {
+    display: none;
+    padding: 1rem 1.5rem;
+    background: #edfcf7;
+    border: 2px solid #3CC8A0;
+    border-radius: 12px;
+    color: #2D3A4A;
+    font-weight: 600;
+    margin-bottom: 3rem;
+  }
+
+  /* Features */
+  .features {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.2rem;
+    max-width: 640px;
+    width: 100%;
+  }
+
+  .feature {
+    padding: 1.5rem 1rem;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 2px 16px rgba(45, 58, 74, 0.06);
+  }
+
+  .feature-icon {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .feature h3 {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #2D3A4A;
+    margin-bottom: 0.4rem;
+  }
+
+  .feature p {
+    font-size: 0.78rem;
+    color: #6b7f94;
+    line-height: 1.5;
+    word-break: keep-all;
+  }
+
+  .f1 .feature-icon { background: #edfcf7; color: #3CC8A0; }
+  .f2 .feature-icon { background: #fef3e7; color: #e8a435; }
+  .f3 .feature-icon { background: #eef7fd; color: #4A9FD9; }
+  .f4 .feature-icon { background: #edfcf7; color: #3CC8A0; }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 2rem 1.5rem;
+    font-size: 0.8rem;
+    color: #a0aec0;
+    border-top: 1px solid #f0f0f0;
+  }
+
+  .footer a {
+    color: #4A9FD9;
+    text-decoration: none;
+  }
+
+  /* Mobile */
+  @media (max-width: 600px) {
+    h1 { font-size: 1.8rem; }
+    .logo-img { height: 120px; }
+    .subtitle { font-size: 1rem; }
+    .signup-row {
+      flex-direction: column;
+    }
+    .features {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+  }
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-content">
+    <div class="logo-area">
+      <img class="logo-img" src="logo.png" alt="약맥">
+    </div>
+
+    <h1>내 약, 제대로<br><em>관리하고 있나요?</em></h1>
+
+    <p class="subtitle">
+      처방전 사진 한 장이면,<br>
+      복약 스케줄부터 영양제 상호작용 확인까지 AI가 챙겨드립니다.
+    </p>
+
+    <form class="signup-form" id="signupForm">
+      <div class="signup-row">
+        <input type="email" id="emailInput" placeholder="이메일 주소" required>
+        <button type="submit">사전등록</button>
+      </div>
+      <button type="button" class="opinion-toggle" id="opinionToggle">💬 필요한 서비스가 있다면 알려주세요 (선택)</button>
+      <textarea id="opinionInput" placeholder="이런 기능이 있으면 좋겠다, 이런 점이 불편했다 — 자유롭게 적어주세요."></textarea>
+    </form>
+    <p class="form-note">사전등록 시 출시 알림 + 무료 체험 기회를 드려요.</p>
+
+    <div class="success-msg" id="successMsg">
+      등록 완료! 출시되면 가장 먼저 알려드릴게요.
+    </div>
+
+    <div class="features">
+      <div class="feature f1">
+        <div class="feature-icon">📷</div>
+        <h3>처방전 인식</h3>
+        <p>사진 한 장으로 약 목록을 자동 등록</p>
+      </div>
+      <div class="feature f2">
+        <div class="feature-icon">⏰</div>
+        <h3>복약 알림</h3>
+        <p>복용 시간·재처방 일정까지 빠짐없이 알림</p>
+      </div>
+      <div class="feature f3">
+        <div class="feature-icon">💊</div>
+        <h3>다제약물 관리</h3>
+        <p>여러 약의 상호작용을 체크하고 위험을 알림</p>
+      </div>
+      <div class="feature f4">
+        <div class="feature-icon">✅</div>
+        <h3>영양제 상호작용 체크</h3>
+        <p>내 약과 상호작용 보고가 적은 영양제를 골라서 추천</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  약맥 · 약을 아는 건강 동반자<br>
+  문의: <a href="mailto:pillink.help@gmail.com">pillink.help@gmail.com</a>
+</footer>
+
+<script>
+document.getElementById('opinionToggle').addEventListener('click', function() {
+  const box = document.getElementById('opinionInput');
+  box.classList.add('open');
+  box.focus();
+  this.style.display = 'none';
+});
+
+document.getElementById('signupForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const email = document.getElementById('emailInput').value;
+  const opinion = document.getElementById('opinionInput').value.trim();
+
+  const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSfg5mU8y927hckqT7UCavUC0-6nrVpNNs5G10EYpoSPWxIzYw/formResponse';
+  const ENTRY_EMAIL = 'entry.1832397751';   // 구글폼 "이메일" 질문 번호
+  const ENTRY_OPINION = 'entry.977685545';  // 구글폼 "필요한 서비스" 질문 번호
+
+  const params = { [ENTRY_EMAIL]: email };
+  if (opinion) params[ENTRY_OPINION] = opinion;
+
+  fetch(GOOGLE_FORM_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams(params)
+  }).then(() => showSuccess()).catch(() => showSuccess());
+});
+
+function showSuccess() {
+  document.getElementById('signupForm').style.display = 'none';
+  document.querySelector('.form-note').style.display = 'none';
+  document.getElementById('successMsg').style.display = 'block';
+}
+</script>
+
+</body>
+</html>
