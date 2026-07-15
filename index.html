@@ -227,6 +227,13 @@
     box-shadow: 0 2px 16px rgba(45, 58, 74, 0.06);
   }
 
+  .feature-head {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 0.7rem;
+  }
+
   .feature-icon {
     width: 44px; height: 44px;
     border-radius: 12px;
@@ -234,21 +241,22 @@
     align-items: center;
     justify-content: center;
     font-size: 1.3rem;
-    margin-bottom: 0.8rem;
+    flex-shrink: 0;
   }
 
   .feature h3 {
-    font-size: 0.9rem;
+    font-size: 1.15rem;
     font-weight: 700;
     color: #2D3A4A;
-    margin-bottom: 0.4rem;
+    text-align: left;
   }
 
   .feature p {
-    font-size: 0.78rem;
+    font-size: 0.85rem;
     color: #6b7f94;
     line-height: 1.5;
     word-break: keep-all;
+    text-align: left;
   }
 
   .f1 .feature-icon { background: #edfcf7; color: #3CC8A0; }
@@ -317,23 +325,31 @@
 
     <div class="features">
       <div class="feature f1">
-        <div class="feature-icon">📷</div>
-        <h3>처방전 인식</h3>
+        <div class="feature-head">
+          <div class="feature-icon">📷</div>
+          <h3>처방전 인식</h3>
+        </div>
         <p>사진 한 장으로 약 목록을 자동 등록</p>
       </div>
       <div class="feature f2">
-        <div class="feature-icon">⏰</div>
-        <h3>복약 알림</h3>
+        <div class="feature-head">
+          <div class="feature-icon">⏰</div>
+          <h3>복약 알림</h3>
+        </div>
         <p>복용 시간·재처방 일정까지 빠짐없이 알림</p>
       </div>
       <div class="feature f3">
-        <div class="feature-icon">💊</div>
-        <h3>다제약물 관리</h3>
+        <div class="feature-head">
+          <div class="feature-icon">💊</div>
+          <h3>다제약물 관리</h3>
+        </div>
         <p>여러 약의 상호작용을 체크하고 위험을 알림</p>
       </div>
       <div class="feature f4">
-        <div class="feature-icon">✅</div>
-        <h3>영양제 상호작용 체크</h3>
+        <div class="feature-head">
+          <div class="feature-icon">✅</div>
+          <h3>영양제 상호작용 체크</h3>
+        </div>
         <p>내 약과 상호작용 보고가 적은 영양제를 골라서 추천</p>
       </div>
     </div>
